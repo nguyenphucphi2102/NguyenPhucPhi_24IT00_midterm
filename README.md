@@ -18,7 +18,7 @@ Bài thi giữa kỳ: lập trình lại lệnh `ls(1)` bằng ngôn ngữ C, th
 
 ## Biên dịch và chạy
 
-    git clone git@github.com:nguyenphucphi2102/NguyenPhucPhi_24IT200_midterm.git
+    git clone https://github.com/nguyenphucphi2102/NguyenPhucPhi_24IT200_midterm.git
     cd NguyenPhucPhi_24IT200_midterm
     make            # tạo file thực thi ./myls
     ./myls          # liệt kê thư mục hiện tại
@@ -40,7 +40,8 @@ Chương trình có tên `myls` để không trùng với `/bin/ls` của hệ t
     ├── print.c/.h    # in kết quả: -i -s -F -q -w -l, dòng total
     ├── format.c/.h   # chọn loại thời gian, BLOCKSIZE, kích thước dễ đọc, ký hiệu -F
     ├── longfmt.c/.h  # định dạng dài: mode, ngày giờ, tên owner/group
-    └── util.c/.h     # cấp phát bộ nhớ an toàn, nối đường dẫn, báo lỗi
+    ├── util.c/.h     # cấp phát bộ nhớ an toàn, nối đường dẫn, báo lỗi
+    └── tests/        # các script shell so sánh myls với ls thật
 
 Chương trình tự cài đặt mọi chức năng, không dùng `strmode(3)`, `humanize_number(3)` hay `getbsize(3)`.
 
@@ -115,6 +116,8 @@ Chương trình được so sánh với `ls` của chính NetBSD 10.1 trên máy
 - Trường hợp biên: tên file có dấu cách, tab, xuống dòng, ký tự điều khiển, byte không phải ASCII, tên bắt đầu bằng `-`, tên dài 250 ký tự, thư mục chứa 2000 file, đường dẫn sâu 40 cấp, operand không tồn tại, `--`, option sai.
 
 Không có phép thử nào làm chương trình bị crash. Chương trình cũng được biên dịch với AddressSanitizer và UndefinedBehaviorSanitizer và chạy trên các thư mục thử; không phát hiện lỗi bộ nhớ.
+
+Các script nằm trong thư mục `tests/` (`t1.sh` đến `t6.sh` và `t8.sh`). Chúng dùng đường dẫn tuyệt đối của máy ảo (`$HOME/NguyenPhucPhi_24IT00_midterm/myls`), nên chạy trực tiếp được trên máy ảo của tác giả; muốn chạy ở nơi khác thì cần sửa biến `M` ở đầu mỗi script. Ví dụ: `sh tests/t2.sh` (toàn bộ dòng `OK` nghĩa là kết quả giống `ls` thật).
 
 ## Các điểm khác với `ls` thật
 
