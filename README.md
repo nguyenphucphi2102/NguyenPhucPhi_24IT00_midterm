@@ -1,5 +1,4 @@
-# Lệnh `ls` của UNIX - Phiên bản đơn giản hóa
-
+# Lệnh `ls` của UNIX
 Bài thi giữa kỳ: lập trình lại lệnh `ls(1)` bằng ngôn ngữ C, theo trang manual `ls(1)` của NetBSD 10.1. Dự án giúp hiểu các thao tác trên hệ thống tập tin UNIX và lập trình ở mức hệ thống.
 
 ## Thông tin sinh viên
