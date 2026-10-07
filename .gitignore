@@ -1,0 +1,11 @@
+# Compiled binary
+myls
+
+# Object files
+*.o
+
+# Misc
+*.core
+core
+*~
+*.swp
