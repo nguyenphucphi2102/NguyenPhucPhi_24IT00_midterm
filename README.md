@@ -118,17 +118,6 @@ Không có phép thử nào làm chương trình bị crash. Chương trình cũ
 
 Các script nằm trong thư mục `tests/` (`t1.sh` đến `t6.sh` và `t8.sh`). Chúng dùng đường dẫn tuyệt đối của máy ảo (`$HOME/NguyenPhucPhi_24IT00_midterm/myls`), nên chạy trực tiếp được trên máy ảo của tác giả; muốn chạy ở nơi khác thì cần sửa biến `M` ở đầu mỗi script. Ví dụ: `sh tests/t2.sh` (toàn bộ dòng `OK` nghĩa là kết quả giống `ls` thật).
 
-## Các điểm khác với `ls` thật
-
-Những chỗ trang manual và `ls` thật của NetBSD không thống nhất, hoặc manual không nói rõ:
-
-- **`-R` và `-d`:** theo manual, hai option ghi đè nhau và cái đứng sau thắng. Với `-dR` thì `-R` thắng. `ls` thật của NetBSD cho `-d` thắng bất kể thứ tự.
-- **`-f`:** manual chỉ ghi "không sắp xếp", nhưng `ls` thật còn bật cả `-a`; chương trình làm giống `ls` thật.
-- **`-s` khi xuất ra terminal:** theo manual, `myls` in dòng `total` trước danh sách. `ls` thật của NetBSD không in dòng này với `-s`. Khi xuất ra pipe hoặc file thì cả hai đều không in.
-- **`-S` và `-t`:** nếu dùng cả hai, option đứng sau thắng (giống `ls` thật).
-- **Operand là chuỗi rỗng:** `myls` báo lỗi cho operand đó và vẫn liệt kê các operand còn lại; `ls` thật không in gì cả.
-- **Định dạng ngắn:** luôn mỗi entry một dòng (theo manual), không chia cột.
-
 ## Hạn chế
 
 - Không hỗ trợ output màu hoặc các option ngoài danh sách trong manual (ví dụ `--color`).
