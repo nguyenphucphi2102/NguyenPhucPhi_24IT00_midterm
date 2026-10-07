@@ -18,7 +18,7 @@ static void list_dir(const char *path, const struct options *opt)
         report_error(path);
     } else {
         sort_entries(&list, opt);
-        print_entries(&list, opt);
+        print_dir(&list, opt);
     }
     entlist_free(&list);
 }
