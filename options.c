@@ -9,7 +9,7 @@
 static void usage(void)
 {
     fprintf(stderr, "usage: ls [-AacdFfhiklnqRrSstuw] [file ...]\n");
-    exit(2);
+    exit(1);
 }
 
 /*
