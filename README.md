@@ -6,7 +6,7 @@ Bài thi giữa kỳ: lập trình lại lệnh `ls(1)` bằng ngôn ngữ C, th
 
 - **Sinh viên:** Nguyễn Phúc Phi
 - **MSSV:** 24IT200
-- **Môn học:** [ĐIỀN TÊN MÔN HỌC]
+- **Môn học:** Lập trình hệ thống 
 - **GitHub:** https://github.com/nguyenphucphi2102/NguyenPhucPhi_24IT200_midterm
 
 ## Môi trường phát triển
