@@ -128,4 +128,4 @@ Các script nằm trong thư mục `tests/` (`t1.sh` đến `t6.sh` và `t8.sh`)
 - Trang manual `ls(1)`, NetBSD 10.1 (27/10/2024), file `ls.pdf` do giảng viên cung cấp.
 - Các trang manual `stat(2)`, `getopt(3)`, `opendir(3)`, `readdir(3)`, `getpwuid(3)`, `getgrgid(3)`, `strftime(3)`.
 
-*Cập nhật lần cuối: tháng 10 năm 2026.*
+
