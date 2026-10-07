@@ -56,7 +56,7 @@ static void size_text(const struct entry *e, const struct options *opt,
     long long bs, char *buf, size_t len)
 {
     if (opt->human)
-        humanize((unsigned long long)e->st.st_size, buf, len);
+        humanize(opt->longfmt ? (unsigned long long)e->st.st_blocks * 512ULL : (unsigned long long)e->st.st_size, buf, len);
     else
         snprintf(buf, len, "%llu", blocks_in(&e->st, bs));
 }
@@ -106,6 +106,12 @@ static void widths(const struct entlist *l, const struct options *opt,
             c->zw = max_int(c->zw, (int)strlen(buf));
         }
     }
+    /* -s with -h: the size column is also at least 4 wide. */
+    if (opt->human && opt->blocks && c->sw < 4)
+        c->sw = 4;
+    /* -h output is always at least 4 characters wide, like ls. */
+    if (opt->human && opt->longfmt && c->zw < 4)
+        c->zw = 4;
     /* A "major, minor" pair must fit in the size column. */
     if (anydev && c->zw < majw + 2 + c->minw)
         c->zw = majw + 2 + c->minw;
@@ -188,15 +194,15 @@ void print_entries(const struct entlist *l, const struct options *opt)
 /* "total N": all blocks of the directory, summed in 512-byte units first. */
 static void print_total(const struct entlist *l, const struct options *opt)
 {
-    unsigned long long sum = 0, bs = (unsigned long long)block_size(opt);
+    unsigned long long sum = 0, bytes = 0, bs = (unsigned long long)block_size(opt);
     char buf[32];
     size_t i;
 
     for (i = 0; i < l->n; i++)
-        sum += (unsigned long long)l->v[i].st.st_blocks;
+        { sum += (unsigned long long)l->v[i].st.st_blocks; bytes += (unsigned long long)l->v[i].st.st_size; }
 
     if (opt->human) {
-        humanize(sum * 512ULL, buf, sizeof(buf));
+        humanize(bytes, buf, sizeof(buf));
         printf("total %s\n", buf);
     } else {
         printf("total %llu\n", (sum * 512ULL + bs - 1) / bs);

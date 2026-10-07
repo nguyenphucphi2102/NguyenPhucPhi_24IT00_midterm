@@ -1,6 +1,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <string.h>
 #include "ls.h"
 #include "options.h"
 #include "entry.h"
@@ -8,17 +9,42 @@
 #include "print.h"
 #include "util.h"
 
-/* List the contents of one directory. */
-static void list_dir(const char *path, const struct options *opt)
+static int printed;   /* has anything been written to stdout yet? */
+
+/*
+ * List one directory and, with -R, every subdirectory below it.
+ * Symbolic links to directories are not followed.
+ */
+static void list_dir(const char *path, const struct options *opt, int header)
 {
     struct entlist list;
+    size_t i;
+
+    if (printed)
+        putchar('\n');
+    if (header)
+        printf("%s:\n", path);
+    printed = 1;
 
     entlist_init(&list);
     if (read_dir(path, opt, &list) == -1) {
+        fflush(stdout);
         report_error(path);
-    } else {
-        sort_entries(&list, opt);
-        print_dir(&list, opt);
+        return;
+    }
+    sort_entries(&list, opt);
+    print_dir(&list, opt);
+
+    if (opt->recursive) {
+        for (i = 0; i < list.n; i++) {
+            const struct entry *e = &list.v[i];
+
+            if (!S_ISDIR(e->st.st_mode))
+                continue;
+            if (strcmp(e->name, ".") == 0 || strcmp(e->name, "..") == 0)
+                continue;
+            list_dir(e->path, opt, 1);
+        }
     }
     entlist_free(&list);
 }
@@ -29,9 +55,7 @@ int main(int argc, char *argv[])
     struct entlist files, dirs;
     char *dot[] = { ".", NULL };
     char **ops;
-    int nops, first, i;
-    int printed = 0;    /* has anything been written to stdout yet? */
-    int follow;         /* follow symlinks given as operands?       */
+    int nops, first, i, follow;
 
     first = parse_options(argc, argv, &opt);
     ops = argv + first;
@@ -70,15 +94,8 @@ int main(int argc, char *argv[])
         print_entries(&files, &opt);
         printed = 1;
     }
-
-    for (i = 0; i < (int)dirs.n; i++) {
-        if (printed)
-            putchar('\n');
-        if (nops > 1)
-            printf("%s:\n", dirs.v[i].path);
-        list_dir(dirs.v[i].path, &opt);
-        printed = 1;
-    }
+    for (i = 0; i < (int)dirs.n; i++)
+        list_dir(dirs.v[i].path, &opt, nops > 1);
 
     entlist_free(&files);
     entlist_free(&dirs);
